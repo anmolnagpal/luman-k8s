@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: redis-db
-        image:  redis:latest
+        image:  redis:5.0.3-alpine
         imagePullPolicy: Always
         ports:
         - containerPort: 6379
