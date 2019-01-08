@@ -13,13 +13,10 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install -j$(nproc) pdo_mysql \
     && docker-php-ext-install  mbstring
 
-RUN apt-get install nano -y
-
 RUN apt-get install supervisor -y
 
 RUN apt-get install -y nginx  && \
     rm -rf /var/lib/apt/lists/*
-
 
 COPY . /var/www/html
 WORKDIR /var/www/html
@@ -37,10 +34,8 @@ RUN chgrp -R www-data storage
 RUN chown -R www-data:www-data ./storage
 RUN chmod -R 0777 ./storage
 
-RUN ln -s ./secret/.env .env
+RUN chmod +x ./_bin/run
 
-RUN chmod +x ./deploy/run
-
-ENTRYPOINT ["./deploy/run.sh"]
+ENTRYPOINT ["./_bin/run.sh"]
 
 EXPOSE 80
