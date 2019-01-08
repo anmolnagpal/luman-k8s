@@ -1,15 +1,17 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: redis-inventory
+  name: redis
   labels:
-    component: redis-inventory
+    component: db
     team: devops
-    app: redis-inventory
+    app: redis
 spec:
   ports:
     - port: 6379
-      name: redis-inventory
+      name: redis
   clusterIP: None
   selector:
-    app: redis-inventory
+    app: redis
+    component: db
+  
