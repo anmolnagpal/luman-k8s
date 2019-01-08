@@ -1,43 +1,43 @@
 apiVersion: apps/v1beta1
 kind: StatefulSet
 metadata:
-  name: redis-inventory
+  name: redis
   labels:
-    component: redis-inventory
+    component: db
     team: devops
-    app: redis-inventory
+    app: redis
 spec:
   replicas: 1
   updateStrategy:
     type: OnDelete
-  serviceName: redis-inventory
+  serviceName: redis
   template:
     metadata:
       labels:
-        component: redis-inventory
-        app: redis-inventory
+        component: db
+        app: redis
         team: devops
     spec:
       containers:
-      - name: redis-inventory
-        image:  gcr.io/fyndiq-prod/k8s-redis:latest
+      - name: redis-db
+        image:  redis:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 6379
         resources:
           requests:
-            cpu: "500m"
+            cpu: "100m"
         volumeMounts:
           - mountPath: /data
             name: data
-          - name: redis-inventory-config-volume
+          - name: redis-config-volume
             mountPath: /etc/redis/
       nodeSelector:
-        cloud.google.com/gke-nodepool: redis-pool-v2
+        cloud.google.com/gke-nodepool: pool-1
       volumes:
-        - name: redis-inventory-config-volume
+        - name: redis-config-volume
           configMap:
-            name: redis-inventory-config
+            name: redis-config
   volumeClaimTemplates:
   - metadata:
       name: data
@@ -46,4 +46,4 @@ spec:
       storageClassName: ssd
       resources:
         requests:
-          storage: 20Gi
+          storage: 5Gi
