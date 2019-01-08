@@ -1,23 +1,29 @@
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: redis
   namespace: db
-
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: redis
   template:
     metadata:
       labels:
         app: redis
-        tier: backend
+        team: developer
     spec:
+      nodeSelector:
+        cloud.google.com/gke-nodepool: pool-1 #this can be changes as per requirement
       containers:
-      - name: redis
-        image: gcr.io/google_containers/redis:e2e  # or just image: redis
-        resources:
-          requests:
-            cpu: 100m
-            memory: 100Mi
-        ports:
-        - containerPort: 6379
+        - name: redis
+          image: redis:5.0.3-alpine
+          ports:
+            - name: redis
+              containerPort: 6379
+          resources:
+            limits:
+              memory: "100m"
+            requests:
+              memory: "100Mi"
