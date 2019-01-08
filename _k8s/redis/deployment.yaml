@@ -23,7 +23,6 @@ spec:
             - name: redis
               containerPort: 6379
           resources:
-            limits:
-              memory: "100m"
             requests:
-              memory: "100Mi"
+             cpu: 100m
+             memory: 100Mi
