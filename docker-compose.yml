@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: _docker/Dockerfile
+      args:
+        BUILD_VERSION: local
+    environment:
+      - APP_ROLE=api
+    container_name: invoicepayment_api
+    ports:
+      - 80:80
+    restart: always
+    volumes:
+      - ./app:/var/www/html
+      - /var/www/html/var # to improve performance and avoid cache clearing issues
+
+  projection:
+    build:
+      context: .
+      dockerfile: _docker/Dockerfile
+      args:
+        BUILD_VERSION: local
+    environment:
+      - APP_ROLE=projection
+    container_name: invoicepayment_projection
+    restart: always
+    volumes:
+      - ./app:/var/www/html
+      - /var/www/html/var # to improve performance and avoid cache clearing issues
+
+  mysql:
+    image: percona:5.7
+    container_name: invoicepayment_mysql
+    environment:
+      MYSQL_USER: dev
+      MYSQL_PASSWORD: devmysql
+      MYSQL_DATABASE: invoicepayment_local
+      MYSQL_ROOT_PASSWORD: devmysql
+    ports:
+      - 3306:3306
+    restart: always
