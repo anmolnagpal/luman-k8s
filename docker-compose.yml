@@ -3,7 +3,7 @@ services:
 
   redis:
     extends:
-      file: _dc-files/redis.yml
+      file: _docker/redis.yml
       service: redis
 
 networks:
@@ -11,8 +11,8 @@ networks:
     driver: bridge
     ipam:
      config:
-       - subnet: 10.10.0.0/16
-         gateway: 10.10.0.1
+       - subnet: 10.13.0.0/16
+         gateway: 10.13.0.1
 
 volumes:
   data-volume:
