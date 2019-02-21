@@ -1,11 +1,15 @@
 version: '2.1'
 services:
 
+  mysql:
+    extends:
+      file: _docker/mysql.yml
+      service: mysql
+
   mongo:
     extends:
       file: _docker/mongo.yml
       service: mongo
-
 
   redis:
     extends:

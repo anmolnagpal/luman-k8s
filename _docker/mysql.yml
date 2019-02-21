@@ -1,0 +1,20 @@
+version: '2.1'
+services:
+  mysql:
+    container_name: mariadb
+    image: leafney/docker-alpine-mysql
+    mem_limit: 1g
+    memswap_limit: 1g
+    cpu_shares: 20
+    ports:
+      - 4306:3306
+    networks:
+      net:
+        ipv4_address: 10.13.0.20
+    volumes:
+      - data-volume:/data/mysql:rw
+    environment:
+      MYSQL_ROOT_PWD: "root"
+      MYSQL_USER: user
+      MYSQL_USER_DB: db
+      MYSQL_USER_PWD: 123456
