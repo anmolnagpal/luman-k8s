@@ -1,6 +1,16 @@
 version: '2.1'
 services:
 
+  nginx:
+    extends:
+      file: _docker/nginx.yml
+      service: nginx
+
+  php:
+    extends:
+      file: _docker/php.yml
+      service: php
+
   mysql:
     extends:
       file: _docker/mysql.yml
