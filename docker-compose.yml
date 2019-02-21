@@ -1,6 +1,12 @@
 version: '2.1'
 services:
 
+  mongo:
+    extends:
+      file: _docker/mongo.yml
+      service: mongo
+
+
   redis:
     extends:
       file: _docker/redis.yml
