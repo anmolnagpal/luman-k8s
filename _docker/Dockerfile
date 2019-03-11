@@ -14,7 +14,7 @@ RUN apt-get install supervisor -y
 RUN apt-get install -y nginx  && \
     rm -rf /var/lib/apt/lists/*
 
-COPY ./.. /var/www/html
+COPY . /var/www/html
 WORKDIR /var/www/html
 
 RUN rm /etc/nginx/sites-enabled/default
