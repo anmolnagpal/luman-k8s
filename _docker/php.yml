@@ -19,7 +19,6 @@ services:
       - ~/.ssh:/home/www-data/.ssh
       - ./php/php.ini:/usr/local/etc/php/php.ini
       - ./nginx/sites-enabled:/etc/nginx/sites-enabled
-      - ./nginx/ssl:/etc/nginx/ssl
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - data-volume:/var/log/nginx
       - data-volume:/var/log/php
