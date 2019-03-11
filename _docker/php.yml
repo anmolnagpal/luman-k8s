@@ -2,7 +2,7 @@ version: '2.1'
 services:
   php:
     container_name: php
-    image: clouddrove/php:7.3.0-fpm-nginx
+    image: clouddrove/php:7.3.3-fpm-nginx
     mem_limit: 2000000000 #2g
     memswap_limit: 2000000000 #2g
     cpu_shares: 30
@@ -10,25 +10,16 @@ services:
     ports:
       - "2222:22"   # ssh
       - "8080:80"
-      - "8043:443"
+      - "8443:443"
     entrypoint: /image/start.sh
     volumes:
       - ./php:/image/
       - ./../:/var/www/
-      - ./php/etc/sshd.conf:/etc/ssh/sshd_config
       - ~/.ssh:/root/.ssh
-      - ./php/etc/zshrc:/root/.zshrc
-      - ./php/etc/zsh/aliases.conf:/root/.aliases
-      - ./php/etc/zsh/extra.conf:/root/.extra
       - ~/.ssh:/home/www-data/.ssh
-      - ./php/etc/zshrc:/home/www-data/.zshrc
-      - ./php/etc/zsh/aliases.conf:/home/www-data/.aliases
-      - ./php/etc/zsh/extra.conf:/home/www-data/.extra
       - ./php/php.ini:/usr/local/etc/php/php.ini
-      - ./nginx:/image/
-      - ./nginx/files/config/sites-enabled:/etc/nginx/sites-enabled
-      - ./nginx/files/config/site.d:/etc/nginx/site.d
-      - ./nginx/files/config/ssl:/etc/nginx/ssl
+      - ./nginx/sites-enabled:/etc/nginx/sites-enabled
+      - ./nginx/ssl:/etc/nginx/ssl
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - data-volume:/var/log/nginx
       - data-volume:/var/log/php
@@ -38,7 +29,6 @@ services:
 
     extra_hosts:
       # services
-      - "php: 10.13.0.6"
       - "mysql: 10.13.0.20"
       - "mongo: 10.13.0.21"
       - "mongodb: 10.13.0.21"
@@ -46,5 +36,5 @@ services:
 
 
       # local domain
-      - "lumana-api.local: 10.10.0.100"
+      - "lumana-api.local: 10.10.0.6"
 
