@@ -1,0 +1,30 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: laravel
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: laravel
+  template:
+    metadata:
+      labels:
+        app: laravel
+    spec:
+      containers:
+      - name: laravel
+        image: docker.io/pietheinstrengholt/laravel-on-k8s:v1
+        volumeMounts:
+        - name: secret
+          mountPath: "/var/www/html/secret"
+          readOnly: true
+        ports:
+        - containerPort: 80
+          protocol: TCP
+      volumes:
+      - name: app-secret
+        secret:
+          secretName: laravel-secret
+      imagePullSecrets:
+      - name: regsecret
