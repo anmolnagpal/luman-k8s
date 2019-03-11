@@ -17,17 +17,17 @@ COPY . /var/www/html
 WORKDIR /var/www/html
 
 RUN rm /etc/nginx/sites-enabled/default
-COPY ./nginx/sites-enabled/luman.conf /etc/nginx/conf.d/default.conf
+COPY ./_docker/nginx/sites-enabled/luman.conf /etc/nginx/conf.d/default.conf
 
-COPY ./php/www.conf /usr/local/etc/php-fpm.d/www.conf
+COPY ./_docker/php/www.conf /usr/local/etc/php-fpm.d/www.conf
 
 RUN usermod -a -G www-data root
 RUN chgrp -R www-data storage
 RUN chown -R www-data:www-data ./storage
 RUN chmod -R 0777 ./storage
 
-RUN ln -s ./_secret/.env  .env
+RUN ln -s ./_docker/_secret/.env  .env
 RUN chmod +x ./run
 
-ENTRYPOINT ["./run"]
+ENTRYPOINT ["./_docker/run"]
 EXPOSE 80
