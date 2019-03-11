@@ -14,7 +14,7 @@ services:
     entrypoint: /image/start.sh
     volumes:
       - ./php:/image/
-      - ./../:/var/www/
+      - ./../:/var/www/html/
       - ~/.ssh:/root/.ssh
       - ~/.ssh:/home/www-data/.ssh
       - ./php/php.ini:/usr/local/etc/php/php.ini
