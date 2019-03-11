@@ -2,23 +2,19 @@ version: '2.1'
 services:
   php:
     container_name: php
-    image: clouddrove/php:7.2.12-0
+    image: clouddrove/php:7.3.0-fpm-nginx
     mem_limit: 2000000000 #2g
     memswap_limit: 2000000000 #2g
     cpu_shares: 30
     privileged: true
     ports:
-      - "8443:443"  # nginx ssl
       - "2222:22"   # ssh
-      - "9003:9003" # xdebug
-      - "9001:9001" # supervisor admin
-      - "9110:9110" # php
+      - "8080:80"
+      - "8043:443"
     entrypoint: /image/start.sh
-
     volumes:
       - ./php:/image/
       - ./../:/var/www/
-      - data-volume:/var/log/php
       - ./php/etc/sshd.conf:/etc/ssh/sshd_config
       - ~/.ssh:/root/.ssh
       - ./php/etc/zshrc:/root/.zshrc
@@ -29,7 +25,13 @@ services:
       - ./php/etc/zsh/aliases.conf:/home/www-data/.aliases
       - ./php/etc/zsh/extra.conf:/home/www-data/.extra
       - ./php/php.ini:/usr/local/etc/php/php.ini
-
+      - ./nginx:/image/
+      - ./nginx/files/config/sites-enabled:/etc/nginx/sites-enabled
+      - ./nginx/files/config/site.d:/etc/nginx/site.d
+      - ./nginx/files/config/ssl:/etc/nginx/ssl
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - data-volume:/var/log/nginx
+      - data-volume:/var/log/php
     networks:
       net:
         ipv4_address: 10.13.0.6
