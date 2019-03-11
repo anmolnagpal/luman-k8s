@@ -27,7 +27,7 @@ RUN chown -R www-data:www-data ./storage
 RUN chmod -R 0777 ./storage
 
 RUN ln -s ./_docker/_secret/.env  .env
-RUN chmod +x ./run
+RUN chmod +x ./_docker/run
 
 ENTRYPOINT ["./_docker/run"]
 EXPOSE 80
