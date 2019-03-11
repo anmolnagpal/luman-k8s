@@ -16,26 +16,21 @@ RUN apt-get install supervisor -y
 RUN apt-get install -y nginx  && \
     rm -rf /var/lib/apt/lists/*
 
-COPY . /var/www/html
+COPY ./.. /var/www/html
 WORKDIR /var/www/html
 
 RUN rm /etc/nginx/sites-enabled/default
+COPY ./nginx/sites-enabled/luman.conf /etc/nginx/conf.d/default.conf
 
-COPY ./deploy/deploy.conf /etc/nginx/conf.d/default.conf
-
-RUN mv /usr/local/etc/php-fpm.d/www.conf /usr/local/etc/php-fpm.d/www.conf.backup
-COPY ./deploy/www.conf /usr/local/etc/php-fpm.d/www.conf
+COPY ./php/www.conf /usr/local/etc/php-fpm.d/www.conf
 
 RUN usermod -a -G www-data root
 RUN chgrp -R www-data storage
-
 RUN chown -R www-data:www-data ./storage
 RUN chmod -R 0777 ./storage
 
-RUN ln -s ./secret/.env .env
+RUN ln -s ./_secret/.env  .env
+RUN chmod +x ./run
 
-RUN chmod +x ./deploy/run
-
-ENTRYPOINT ["./deploy/run"]
-
+ENTRYPOINT ["./run"]
 EXPOSE 80
