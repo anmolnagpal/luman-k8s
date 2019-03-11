@@ -2,13 +2,11 @@ FROM php:7.3.3-fpm
 
 RUN apt-get update && apt-get install -y \
         libpq-dev \
+        apt-utils \
         libmcrypt-dev \
         curl \
-    && docker-php-ext-install -j$(nproc) mcrypt \
     && docker-php-ext-install -j$(nproc) pdo \
-    && docker-php-ext-install -j$(nproc) pdo_pgsql \
-    && docker-php-ext-install -j$(nproc) pdo_mysql \
-    && docker-php-ext-install  mbstring
+    && docker-php-ext-install -j$(nproc) pdo_pgsql
 
 
 RUN apt-get install supervisor -y
