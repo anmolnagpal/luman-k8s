@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: cron
-        image: registry.gitlab.com/clouddrove/audit-api:1.0.1
+        image: <changeme>
         imagePullPolicy: Always
         envFrom:
         - configMapRef:
