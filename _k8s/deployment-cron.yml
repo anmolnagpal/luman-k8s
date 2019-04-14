@@ -1,0 +1,38 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: clouddrove-cron
+  namespace: clouddrove
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: clouddrove-cron
+
+  strategy:
+    type: Recreate
+
+  template:
+    metadata:
+      labels:
+        app: clouddrove-cron
+    spec:
+      containers:
+      - name: cron
+        image: registry.gitlab.com/clouddrove/audit-api:1.0.1
+        imagePullPolicy: Always
+        envFrom:
+        - configMapRef:
+            name: laravel-config
+        env:
+        - name: START_HORIZON
+          value: "false"
+        - name: RUN_LARAVEL_CRON
+          value: "true"
+        - name: START_NGINX
+          value: "false"
+        - name: START_PHP_FPM
+          value: "false"
+
+      imagePullSecrets:
+      - name: docker-auth
